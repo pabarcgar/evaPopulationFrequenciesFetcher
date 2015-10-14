@@ -35,7 +35,7 @@ class StatVariationFrequencies(VariationFrequencies):
         for stat in stats:
             frequencies = self.get_frequecies(projects, stat)
             if frequencies is not None:
-                self.populationFrequencies.append(frequencies)
+                self.population_frequencies.append(frequencies)
 
     def get_frequecies(self, projects, stat):
         for project in projects:
@@ -98,5 +98,5 @@ class StatVariationFrequencies(VariationFrequencies):
             else:
                 super_population_ref_freq = 0
                 super_population_alt_freq = 0
-            self.populationFrequencies.append(PopulationFrequencies(super_population, super_population_ref_freq, super_population_alt_freq))
+            self.population_frequencies.append(PopulationFrequencies(super_population, super_population_ref_freq, super_population_alt_freq))
 
