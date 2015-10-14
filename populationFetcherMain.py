@@ -18,4 +18,8 @@ chr = sys.argv[1]
 sys.stderr.write('Extracting frequencies from chromosome ' + chr + ' ...')
 eva_adaptor = EvaMongoAdaptor('database.config')
 for variation in eva_adaptor.find_variations(project_ids, chr):
-    print StatVariationFrequencies(projects, variation['st'])
+    frequencies = StatVariationFrequencies(projects, variation['st'])
+    for variation_id in variation.ids:
+        if variation_id != '':
+            print '\t'.join([variation.chromosome, variation.start, variation.end, variation_id, frequencies])
+
