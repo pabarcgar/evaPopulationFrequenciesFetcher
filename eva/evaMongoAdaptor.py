@@ -29,13 +29,10 @@ class EvaMongoAdaptor:
             filter = {"$or": proj}
         else:
             filter = {"$and": [{"$or": proj}, {"chr": chromosome}]}
-        # projects = [{"files.sid": "PRJEB4019"}, {"files.sid": "PRJEB5439"}, {"files.sid": "PRJEB6930"}]
-        # TODO: attrs is not going to be needed
-        # fields_to_show = {"chr": 1, "start": 1, "end": 1, "ids": 1, "ref": 1, "alt": 1, "files.sid": 1, "files.attrs": 1, "st": 1}
-        fields_to_show = {"chr": 1, "start": 1, "end": 1, "ids": 1, "ref": 1, "alt": 1, "files.sid": 1, "st": 1}
+        fields_to_show = {"chr": 1, "start": 1, "end": 1, "ids": 1, "ref": 1, "alt": 1, "files.sid": 1, "files.attrs": 1, "st": 1}
         for variation in self.variants_collection.find(filter, fields_to_show):
             if variation['ids'] is not None:
-                yield variation
+                yield Variation(variation)
 
     def find_exac_variations(self):
         for variation in self.variants_collection.find({"$or": [{"files.sid": "130"}]}, {"chr":1, "start": 1, "end":1, "ids":1, "ref":1, "alt":1, "files.sid": 1, "files.attrs": 1, "st":1}):
@@ -45,7 +42,8 @@ class EvaMongoAdaptor:
     @staticmethod
     def connect(hosts, user, password):
         try:
-            client = MongoClient(hosts, read_preference = ReadPreference.SECONDARY_PREFERRED)
+            client = MongoClient("mongodb://mongos-hxvm-001.ebi.ac.uk:27017/admin", read_preference=ReadPreference.SECONDARY_PREFERRED)
+            #client = MongoClient(hosts, read_preference = ReadPreference.SECONDARY_PREFERRED)
             client.admin.authenticate(user, password, mechanism='MONGODB-CR')
         except:
             e = sys.exc_info()[0]

@@ -28,22 +28,26 @@ class StatVariationFrequencies(VariationFrequencies):
     def __init__(self, projects, stats):
         VariationFrequencies.__init__(self)
         self.super_population_counts = {}
-        self.get_population_from_stats(projects, stats)
+        self.get_population_frequencies_from_stats(projects, stats)
         self.get_super_population_frequencies()
 
-    def get_population_from_stats(self, projects, stats):
+    def get_population_frequencies_from_stats(self, projects, stats):
         for stat in stats:
-            frequencies = self.get_frequecies(projects, stat)
+            frequencies = self.get_frequencies(projects, stat)
             if frequencies is not None:
                 self.population_frequencies.append(frequencies)
+        # TODO: calculate super population_frequencies
 
-    def get_frequecies(self, projects, stat):
+    def get_frequencies(self, projects, stat):
         for project in projects:
             if stat['sid'] == project.id:
                 population = stat['cid']
                 population_complete_name = project.name + '_' + population
-                population_ref_freq, population_alt_freq = self.get_frequencies(project, population, stat['numGt'])
-                return PopulationFrequencies(population_complete_name, population_ref_freq, population_alt_freq)
+                population_ref_freq, population_alt_freq = self.get_population_frequencies(project, population, stat['numGt'])
+                if not project.exclude_population(population):
+                    return PopulationFrequencies(population_complete_name, population_ref_freq, population_alt_freq)
+                else:
+                    return None
 
                 # for stat in stats:
                 #     population = stat['cid']
@@ -69,7 +73,7 @@ class StatVariationFrequencies(VariationFrequencies):
                 #     else:
                 #         sys.stderr.write('\nError: total allele count is 0 in super population ' + super_population + ' in variant ' + str(ids))
 
-    def get_frequencies(self, project, population, genotype_counts):
+    def get_population_frequencies(self, project, population, genotype_counts):
         ref_counts, alt_counts, total_counts = get_allelecounts_from_gt_stats(genotype_counts)
         super_population = project.get_super_population(population)
 

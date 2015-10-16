@@ -3,7 +3,7 @@ import traceback
 
 __author__ = 'parce'
 
-from EvaMongoAdaptor import EvaMongoAdaptor
+from eva.evaMongoAdaptor import EvaMongoAdaptor
 import sys
 
 POPULATION_TAGS_IN_1000G_PHASE1 = ['AFR_AF', 'AMR_AF', 'ASN_AF', 'EUR_AF']

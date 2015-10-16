@@ -34,4 +34,4 @@ SUPER_POPULATIONS_G1k_PHASE3 = {'ACB': 'AFR',
 
 class ThousandGenomesPhase3Project(Project):
     def __init__(self):
-        Project.__init__(self, '301', '1000G_PHASE_3', SUPER_POPULATIONS_G1k_PHASE3)
+        Project.__init__(self, '301', '1000G_PHASE_3', SUPER_POPULATIONS_G1k_PHASE3, SUPER_POPULATIONS_G1k_PHASE3.keys())
