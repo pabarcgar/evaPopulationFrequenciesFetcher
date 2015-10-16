@@ -18,11 +18,16 @@ frequencies_in_attrs_projects = [thousand_genomes_phase1_project]
 project_ids = [project.id for project in counts_in_stats_projects + frequencies_in_attrs_projects]
 
 variations_processed, serialized_lines = 0, 0
-chr = sys.argv[1]
+chromosome = None
+if len(sys.argv) > 1:
+    chromosome = sys.argv[1]
 sys.stderr.write('Connecting to EVA Mongo ...\n')
 eva_adaptor = EvaMongoAdaptor('database.config')
-sys.stderr.write('Extracting frequencies from chromosome ' + chr + ' ...')
-for variation in eva_adaptor.find_variations(project_ids, chr):
+if chromosome is not None:
+    sys.stderr.write('Extracting frequencies from chromosome ' + chromosome + ' ...')
+else:
+    sys.stderr.write('Extracting all frequencies ...')
+for variation in eva_adaptor.find_variations(project_ids, chromosome):
     variations_processed += 1
 
     # frequencies = StatVariationFrequencies(counts_in_stats_projects, variation['st'])
