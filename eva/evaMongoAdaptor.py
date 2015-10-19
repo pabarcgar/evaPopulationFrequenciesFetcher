@@ -26,11 +26,11 @@ class EvaMongoAdaptor:
         for project in projects:
             proj.append({"files.sid": project})
         if chromosome is None:
-            filter = {"$or": proj}
+            query_filter = {"$or": proj}
         else:
-            filter = {"$and": [{"$or": proj}, {"chr": chromosome}]}
+            query_filter = {"$and": [{"$or": proj}, {"chr": chromosome}]}
         fields_to_show = {"chr": 1, "start": 1, "end": 1, "ids": 1, "ref": 1, "alt": 1, "files.sid": 1, "files.attrs": 1, "st": 1}
-        for variation in self.variants_collection.find(filter, fields_to_show):
+        for variation in self.variants_collection.find(query_filter, fields_to_show):
             if variation['ids'] is not None:
                 yield Variation(variation)
 
@@ -42,8 +42,7 @@ class EvaMongoAdaptor:
     @staticmethod
     def connect(hosts, user, password):
         try:
-            client = MongoClient("mongodb://mongos-hxvm-001.ebi.ac.uk:27017/admin", read_preference=ReadPreference.SECONDARY_PREFERRED)
-            #client = MongoClient(hosts, read_preference = ReadPreference.SECONDARY_PREFERRED)
+            client = MongoClient(hosts, read_preference = ReadPreference.SECONDARY_PREFERRED)
             client.admin.authenticate(user, password, mechanism='MONGODB-CR')
         except:
             e = sys.exc_info()[0]

@@ -13,13 +13,6 @@ class AttrVariationFrequencies(VariationFrequencies):
             if self.attrs is not None:
                 self.get_frequencies_from_attrs(project.name, project.populations)
 
-    # def __init__(self, project_id, project_name, population_tags):
-    #     VariationFrequencies.__init__(self)
-    #     self.project_id = project_id
-    #     self.attrs = self.get_attrs(self.files)
-    #     if self.attrs is not None:
-    #         self.get_frequencies_from_attrs(project_name, population_tags)
-
     def get_frequencies_from_attrs(self, project_name, population_tags):
         for tag in population_tags:
             freq_tag = tag + '_AF'

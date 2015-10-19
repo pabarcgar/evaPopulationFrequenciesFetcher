@@ -36,7 +36,6 @@ class StatVariationFrequencies(VariationFrequencies):
             frequencies = self.get_frequencies(projects, stat)
             if frequencies is not None:
                 self.population_frequencies.append(frequencies)
-        # TODO: calculate super population_frequencies
 
     def get_frequencies(self, projects, stat):
         for project in projects:
@@ -48,30 +47,6 @@ class StatVariationFrequencies(VariationFrequencies):
                     return PopulationFrequencies(population_complete_name, population_ref_freq, population_alt_freq)
                 else:
                     return None
-
-                # for stat in stats:
-                #     population = stat['cid']
-                #     # if population not in SUPER_POPULATIONS_G1k_PHASE3:
-                #     #     print 'POPULATION QUE NO EXISTE: ' + population
-                #     if stat['sid'] == project_id and population in SUPER_POPULATIONS_G1k_PHASE3:
-                #         ref_counts, alt_counts, total_counts = self.get_allelecounts_from_gt_stats(stat['numGt'])
-                #         super_population = SUPER_POPULATIONS_G1k_PHASE3[population]
-                #         if super_population in super_populations_allele_counts:
-                #             (acc_ref_counts, acc_alt_counts, acc_total_counts) = super_populations_allele_counts[super_population]
-                #             super_populations_allele_counts[super_population] = (ref_counts + acc_ref_counts, alt_counts + acc_alt_counts, total_counts + acc_total_counts)
-                #         else:
-                #             super_populations_allele_counts[super_population] = (ref_counts, alt_counts, total_counts)
-                # frequencies = []
-                # for super_population in super_populations_allele_counts:
-                #     super_population_allele_counts = super_populations_allele_counts[super_population]
-                #     super_population_total_allele_count = super_population_allele_counts[0] + super_population_allele_counts[1]
-                #     if super_population_total_allele_count != 0:
-                #         super_population_ref_freq = float(super_population_allele_counts[0]) / super_population_total_allele_count
-                #         super_population_alt_freq = float(super_population_allele_counts[1]) / super_population_total_allele_count
-                #         self.population_frequencies['1000G_PHASE_3_' + super_population] = PopulationFrequencies(super_population_ref_freq, super_population_ref_freq)
-                #         #frequencies.append('1000G_PHASE_3_' + super_population + '_AF:' + self.format_frequency(super_population_ref_freq) + ',' + self.format_frequency(super_population_alt_freq))
-                #     else:
-                #         sys.stderr.write('\nError: total allele count is 0 in super population ' + super_population + ' in variant ' + str(ids))
 
     def get_population_frequencies(self, project, population, genotype_counts):
         ref_counts, alt_counts, total_counts = get_allelecounts_from_gt_stats(genotype_counts)
