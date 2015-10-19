@@ -13,4 +13,4 @@ class PopulationFrequencies:
 
     @staticmethod
     def format_frequency(frequency):
-        return '{:.5f}'.format(frequency).rstrip('0')
+        return '{:.5f}'.format(frequency).rstrip('0').rstrip('.')
