@@ -1,4 +1,4 @@
-
+import sys
 from frequencies.populationFrequencies import PopulationFrequencies
 from frequencies.attrVariationFrequencies import AttrVariationFrequencies
 from frequencies.statVariationFrequencies import StatVariationFrequencies
@@ -21,7 +21,11 @@ class Variation:
         self.start = variation['start']
         self.end = variation['end']
         self.files = variation['files']
-        self.stats = variation['st']
+        if 'st' in variation:
+            self.stats = variation['st']
+        else:
+            self.stats = []
+            sys.stderr.write('\nvariation ' + self.chromosome + ':' + str(self.start) + ' has no \'st\' field')
         self.frequencies = None
         self.variation_rs_ids = []
         self.get_rs_ids()
