@@ -1,4 +1,4 @@
-
+import sys
 from variation.frequencies.populationFrequencies import PopulationFrequencies
 from variation.frequencies.variationFrequencies import VariationFrequencies
 from variation.genotypeCounts import GenotypeCounts
@@ -42,10 +42,14 @@ class StatVariationFrequencies(VariationFrequencies):
             if stat['sid'] == project.id:
                 population = stat['cid']
                 population_complete_name = project.name + '_' + population
-                population_ref_freq, population_alt_freq = self.get_population_frequencies(project, population, stat['numGt'])
-                if not project.exclude_population(population):
-                    return PopulationFrequencies(population_complete_name, population_ref_freq, population_alt_freq)
-                else:
+                try:
+                    population_ref_freq, population_alt_freq = self.get_population_frequencies(project, population, stat['numGt'])
+                    if not project.exclude_population(population):
+                        return PopulationFrequencies(population_complete_name, population_ref_freq, population_alt_freq)
+                    else:
+                        return None
+                except IndexError:
+                    sys.stderr.write('\nError extracting sequencies from variant: ' + str(stat['numGt']))
                     return None
 
     def get_population_frequencies(self, project, population, genotype_counts):
