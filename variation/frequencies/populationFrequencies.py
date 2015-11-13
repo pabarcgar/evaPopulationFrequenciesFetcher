@@ -11,6 +11,9 @@ class PopulationFrequencies:
     def __str__(self):
         return self.population + '_AF:' + self.format_frequency(self.reference_frequency) + ',' + self.format_frequency(self.alternate_frequency)
 
+    def is_not_zero(self):
+        return self.alternate_frequency != 0 or self.reference_frequency != 0
+
     @staticmethod
     def format_frequency(frequency):
         return '{:.5f}'.format(frequency).rstrip('0').rstrip('.')

@@ -29,6 +29,6 @@ else:
 for variation in eva_adaptor.find_variations(project_ids, chromosome):
     variations_processed += 1
     variation.get_frequencies(counts_in_stats_projects, frequencies_in_attrs_projects)
-    if variation.frequencies is not None:
+    if variation.frequencies is not None and variation.frequencies != '':
         print variation
 sys.stderr.write('\nDone. ' + str(variations_processed) + ' variations processed')
