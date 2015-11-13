@@ -20,6 +20,8 @@ class Variation:
         self.chromosome = variation['chr']
         self.start = variation['start']
         self.end = variation['end']
+        self.reference = variation['ref']
+        self.alternate = variation['alt']
         self.files = variation['files']
         if 'st' in variation:
             self.stats = variation['st']
@@ -43,5 +45,5 @@ class Variation:
     def __str__(self):
         string_representation = []
         for variation_id in self.variation_rs_ids:
-            string_representation.append('\t'.join([self.chromosome, str(self.start), str(self.end), variation_id, str(self.frequencies)]))
+            string_representation.append('\t'.join([self.chromosome, str(self.start), str(self.end), self.reference, self.alternate, variation_id, str(self.frequencies)]))
         return '\n'.join(string_representation)
