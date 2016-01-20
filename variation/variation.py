@@ -1,3 +1,4 @@
+import json
 import sys
 from frequencies.populationFrequencies import PopulationFrequencies
 from frequencies.attrVariationFrequencies import AttrVariationFrequencies
@@ -43,7 +44,13 @@ class Variation:
                 self.variation_rs_ids.append(variation_id)
 
     def __str__(self):
+        return self.json_string()
+
+    def tab_separated_string(self):
         string_representation = []
         for variation_id in self.variation_rs_ids:
             string_representation.append('\t'.join([self.chromosome, str(self.start), str(self.end), self.reference, self.alternate, variation_id, str(self.frequencies)]))
         return '\n'.join(string_representation)
+
+    def json_string(self):
+        return json.dumps(self)
