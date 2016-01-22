@@ -19,7 +19,7 @@ class AttrVariationFrequencies(VariationFrequencies):
             if freq_tag in self.attrs:
                 alternate_allele_frequency = float(self.attrs[freq_tag])
                 reference_allele_frequency = 1.0 - alternate_allele_frequency
-                self.population_frequencies.append(PopulationFrequencies(project_name + '_' + tag, reference_allele_frequency, alternate_allele_frequency))#
+                self.population_frequencies_list.append(PopulationFrequencies(project_name + '_' + tag, reference_allele_frequency, alternate_allele_frequency))
 
     def get_attrs(self, project_id):
         for file in self.files:

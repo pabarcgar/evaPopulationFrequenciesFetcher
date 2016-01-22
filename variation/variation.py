@@ -44,7 +44,7 @@ class Variation:
                 self.variation_rs_ids.append(variation_id)
 
     def __str__(self):
-        return self.json_string()
+        return self.to_json_string()
 
     def tab_separated_string(self):
         string_representation = []
@@ -52,5 +52,7 @@ class Variation:
             string_representation.append('\t'.join([self.chromosome, str(self.start), str(self.end), self.reference, self.alternate, variation_id, str(self.frequencies)]))
         return '\n'.join(string_representation)
 
-    def json_string(self):
-        return json.dumps(self)
+    def to_json_string(self):
+        dict = {'chr': self.chromosome, 'start': self.start, 'reference': self.reference, 'alternate': self.alternate,
+                'populationFrequencies': self.frequencies.to_json_array()}
+        return json.dumps(dict)

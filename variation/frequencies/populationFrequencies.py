@@ -17,3 +17,6 @@ class PopulationFrequencies:
     @staticmethod
     def format_frequency(frequency):
         return '{:.5f}'.format(frequency).rstrip('0').rstrip('.')
+
+    def to_dict(self):
+        return {self.population + '_AF:': self.format_frequency(self.reference_frequency) + ',' + self.format_frequency(self.alternate_frequency)}
