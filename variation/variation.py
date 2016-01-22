@@ -35,8 +35,8 @@ class Variation:
 
     def get_frequencies(self, counts_in_stats_projects, frequencies_in_attr_projects):
         if self.frequencies is None and len(self.variation_rs_ids) > 0:
-            self.frequencies = StatVariationFrequencies(counts_in_stats_projects, self.stats)
-            self.frequencies.add(AttrVariationFrequencies(frequencies_in_attr_projects, self.files))
+            self.frequencies = StatVariationFrequencies(self, counts_in_stats_projects, self.stats)
+            self.frequencies.add(AttrVariationFrequencies(self, frequencies_in_attr_projects, self.files))
 
     def get_rs_ids(self):
         for variation_id in self.ids:

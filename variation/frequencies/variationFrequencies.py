@@ -1,6 +1,7 @@
 class VariationFrequencies:
-    def __init__(self):
+    def __init__(self, variation):
         self.population_frequencies_list = []
+        self.variation = variation
 
     def __str__(self):
         return ';'.join(str(freq) for freq in self.population_frequencies_list if freq.is_not_zero())
