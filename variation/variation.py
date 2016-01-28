@@ -7,17 +7,9 @@ from frequencies.statVariationFrequencies import StatVariationFrequencies
 __author__ = 'parce'
 
 
-def add_1000g_population_frequencies(frequencies, attrs, output_tag, population_allele_frequency_tag):
-    if population_allele_frequency_tag in attrs:
-        alternate_allele_frequency = float(attrs[population_allele_frequency_tag])
-        reference_allele_frequency = 1.0 - alternate_allele_frequency
-        frequencies[output_tag + population_allele_frequency_tag] = PopulationFrequencies(reference_allele_frequency, alternate_allele_frequency)
-
-
 class Variation:
 
     def __init__(self, variation):
-        self.ids = variation['ids']
         self.chromosome = variation['chr']
         self.start = variation['start']
         self.end = variation['end']
@@ -30,29 +22,21 @@ class Variation:
             self.stats = []
             sys.stderr.write('\nvariation ' + self.chromosome + ':' + str(self.start) + ' has no \'st\' field')
         self.frequencies = None
-        self.variation_rs_ids = []
-        self.get_rs_ids()
 
     def get_frequencies(self, counts_in_stats_projects, frequencies_in_attr_projects):
-        if self.frequencies is None and len(self.variation_rs_ids) > 0:
+        # TODO: why self.frequencies needs to be None?
+        if self.frequencies is None:
             self.frequencies = StatVariationFrequencies(self, counts_in_stats_projects, self.stats)
             self.frequencies.add(AttrVariationFrequencies(self, frequencies_in_attr_projects, self.files))
-
-    def get_rs_ids(self):
-        for variation_id in self.ids:
-            if variation_id != '' and variation_id[:2] == 'rs':
-                self.variation_rs_ids.append(variation_id)
 
     def __str__(self):
         return self.to_json_string()
 
     def tab_separated_string(self):
-        string_representation = []
-        for variation_id in self.variation_rs_ids:
-            string_representation.append('\t'.join([self.chromosome, str(self.start), str(self.end), self.reference, self.alternate, variation_id, str(self.frequencies)]))
-        return '\n'.join(string_representation)
+        return '\t'.join([self.chromosome, str(self.start), str(self.end), self.reference, self.alternate,
+                          str(self.frequencies)])
 
     def to_json_string(self):
-        dict = {'chr': self.chromosome, 'start': self.start, 'reference': self.reference, 'alternate': self.alternate,
-                'populationFrequencies': self.frequencies.to_json_array()}
+        dict = {'chromosome': self.chromosome, 'start': self.start, 'end': self.end, 'reference': self.reference,
+                'alternate': self.alternate, 'annotation': {'populationFrequencies': self.frequencies.to_json_array()}}
         return json.dumps(dict)

@@ -11,19 +11,25 @@ class AttrVariationFrequencies(VariationFrequencies):
         for project in projects:
             self.attrs = self.get_attrs(project.id)
             if self.attrs is not None:
-                self.get_frequencies_from_attrs(project.name, project.populations)
+                self.get_frequencies_from_attrs(project.name, project, project.populations)
 
-    def get_frequencies_from_attrs(self, project_name, population_tags):
-        for tag in population_tags:
-            freq_tag = tag + '_AF'
-            if freq_tag in self.attrs:
-                alternate_allele_frequency = float(self.attrs[freq_tag])
-                reference_allele_frequency = 1.0 - alternate_allele_frequency
-                self.population_frequencies_list.append(PopulationFrequencies(project_name, tag,
-                                                                              self.variation.reference,
-                                                                              self.variation.alternate,
-                                                                              reference_allele_frequency,
-                                                                              alternate_allele_frequency))
+    def get_frequencies_from_attrs(self, project_name, project, populations):
+        if populations is not None:
+            for population_tag in populations:
+                population_freq_tag = project.get_frequency_tag(population_tag)
+                self.get_frequencies_from_AF_TAG(population_freq_tag, project_name, population_tag)
+        else:
+            self.get_frequencies_from_AF_TAG('AF', project_name, 'ALL')
+
+    def get_frequencies_from_AF_TAG(self, freq_tag, project_name, population_tag):
+        if freq_tag in self.attrs:
+            alternate_allele_frequency = float(self.attrs[freq_tag])
+            reference_allele_frequency = 1.0 - alternate_allele_frequency
+            self.population_frequencies_list.append(PopulationFrequencies(project_name, population_tag,
+                                                                          self.variation.reference,
+                                                                          self.variation.alternate,
+                                                                          reference_allele_frequency,
+                                                                          alternate_allele_frequency))
 
     def get_attrs(self, project_id):
         for file in self.files:

@@ -42,10 +42,12 @@ class StatVariationFrequencies(VariationFrequencies):
             if stat['sid'] == project.id:
                 population = stat['cid']
                 try:
-                    population_ref_freq, population_alt_freq = self.get_population_frequencies(project, population, stat['numGt'])
-                    if not project.exclude_population(population):
+                    population_ref_freq, population_alt_freq = self.get_population_frequencies(project, population,
+                                                                                               stat['numGt'])
+                    if not project.exclude_population(population) and population_ref_freq is not None:
                         return PopulationFrequencies(project.name, population, self.variation.reference,
-                                                     self.variation.alternate, population_ref_freq, population_alt_freq)
+                                                     self.variation.alternate, population_ref_freq,
+                                                     population_alt_freq)
                     else:
                         return None
                 except IndexError:
@@ -61,10 +63,9 @@ class StatVariationFrequencies(VariationFrequencies):
         if total_counts != 0:
             population_ref_freq = float(ref_counts) / total_counts
             population_alt_freq = float(alt_counts) / total_counts
+            return population_ref_freq, population_alt_freq
         else:
-            population_ref_freq = 0
-            population_alt_freq = 0
-        return population_ref_freq, population_alt_freq
+            return None, None
 
     def add_super_population_counts(self, study, super_population, ref_counts, alt_counts, total_counts):
         if super_population not in self.super_population_counts:
@@ -79,11 +80,9 @@ class StatVariationFrequencies(VariationFrequencies):
                                             self.super_population_counts[super_population].total
                 super_population_alt_freq = float(self.super_population_counts[super_population].alternative) / \
                                             self.super_population_counts[super_population].total
-            else:
-                super_population_ref_freq = 0
-                super_population_alt_freq = 0
-            self.population_frequencies_list.append(
-                PopulationFrequencies(self.super_population_counts[super_population].study,
-                                      super_population, self.variation.reference,
-                                      self.variation.alternate,
-                                      super_population_ref_freq, super_population_alt_freq))
+                self.population_frequencies_list.append(
+                        PopulationFrequencies(self.super_population_counts[super_population].study,
+                                              super_population, self.variation.reference,
+                                              self.variation.alternate,
+                                              super_population_ref_freq, super_population_alt_freq))
+

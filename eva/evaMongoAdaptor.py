@@ -29,15 +29,9 @@ class EvaMongoAdaptor:
             query_filter = {"$or": proj}
         else:
             query_filter = {"$and": [{"$or": proj}, {"chr": chromosome}]}
-        fields_to_show = {"chr": 1, "start": 1, "end": 1, "ids": 1, "ref": 1, "alt": 1, "files.sid": 1, "files.attrs": 1, "st": 1}
+        fields_to_show = {"chr": 1, "start": 1, "end": 1, "ref": 1, "alt": 1, "files.sid": 1, "files.attrs": 1, "st": 1}
         for variation in self.variants_collection.find(query_filter, fields_to_show):
-            if variation['ids'] is not None:
-                yield Variation(variation)
-
-    def find_exac_variations(self):
-        for variation in self.variants_collection.find({"$or": [{"files.sid": "130"}]}, {"chr":1, "start": 1, "end":1, "ids":1, "ref":1, "alt":1, "files.sid": 1, "files.attrs": 1, "st":1}):
-            if variation['ids'] is not None:
-                yield variation
+            yield Variation(variation)
 
     @staticmethod
     def connect(hosts, user, password):

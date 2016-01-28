@@ -5,14 +5,20 @@ from project.espProject import EspProject
 from project.exacProject import ExacProject
 from project.thousandGenomesPhase1Project import ThousandGenomesPhase1Project
 from project.thousandGenomesPhase3Project import ThousandGenomesPhase3Project
+from project.gonlProject import GonlProject
+from project.uk10kAlspacProject import Uk10kAlspacProject
+from project.uk10kTwinsUKProject import Uk10kTwinsUKProject
 
 # projects to extract frequencies
 exac_project = ExacProject()
 esp_project = EspProject()
 thousand_genomes_phase1_project = ThousandGenomesPhase1Project()
 thousand_genomes_phase3_project = ThousandGenomesPhase3Project()
+gonl_project = GonlProject()
+uk10k_alspac_project = Uk10kAlspacProject()
+uk10k_twinsuk_project = Uk10kTwinsUKProject()
 counts_in_stats_projects = [exac_project, esp_project, thousand_genomes_phase3_project, thousand_genomes_phase1_project]
-frequencies_in_attrs_projects = [thousand_genomes_phase1_project]
+frequencies_in_attrs_projects = [thousand_genomes_phase1_project, gonl_project, uk10k_alspac_project, uk10k_twinsuk_project]
 project_ids = [project.id for project in counts_in_stats_projects + frequencies_in_attrs_projects]
 
 # extract all variations with frequencies for those projects and and print them
