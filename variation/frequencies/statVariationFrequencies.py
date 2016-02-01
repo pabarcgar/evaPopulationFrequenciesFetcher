@@ -60,7 +60,7 @@ class StatVariationFrequencies(VariationFrequencies):
 
         if super_population is not None:
             self.add_super_population_counts(project.name, super_population, ref_counts, alt_counts, total_counts)
-        if total_counts != 0:
+        if total_counts != 0 and ref_counts != total_counts:
             population_ref_freq = float(ref_counts) / total_counts
             population_alt_freq = float(alt_counts) / total_counts
             return population_ref_freq, population_alt_freq
