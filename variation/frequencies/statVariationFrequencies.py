@@ -75,14 +75,12 @@ class StatVariationFrequencies(VariationFrequencies):
 
     def get_super_population_frequencies(self):
         for super_population in self.super_population_counts:
-            if self.super_population_counts[super_population].total != 0:
-                super_population_ref_freq = float(self.super_population_counts[super_population].reference) / \
-                                            self.super_population_counts[super_population].total
-                super_population_alt_freq = float(self.super_population_counts[super_population].alternative) / \
-                                            self.super_population_counts[super_population].total
+            genotype_counts = self.super_population_counts[super_population]
+            if genotype_counts.total != 0 and genotype_counts.reference != genotype_counts.total:
+                super_population_ref_freq = float(genotype_counts.reference) / genotype_counts.total
+                super_population_alt_freq = float(genotype_counts.alternate) / genotype_counts.total
                 self.population_frequencies_list.append(
-                        PopulationFrequencies(self.super_population_counts[super_population].study,
-                                              super_population, self.variation.reference,
-                                              self.variation.alternate,
-                                              super_population_ref_freq, super_population_alt_freq))
+                    PopulationFrequencies(genotype_counts.study, super_population, self.variation.reference,
+                                          self.variation.alternate, super_population_ref_freq,
+                                          super_population_alt_freq))
 
