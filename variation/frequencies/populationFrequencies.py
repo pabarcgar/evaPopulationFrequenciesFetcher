@@ -22,7 +22,6 @@ class PopulationFrequencies:
         return '{:.5f}'.format(frequency).rstrip('0').rstrip('.')
 
     def to_dict(self):
-        return {"study": self.study, "population": self.population, "superPopulation": self.population,
-                "refAllele": self.reference_allele, "altAllele": self.alternate_allele,
-                "refAlleleFreq": self.format_frequency(self.reference_frequency),
+        return {"study": self.study, "population": self.population, "refAllele": self.reference_allele,
+                "altAllele": self.alternate_allele, "refAlleleFreq": self.format_frequency(self.reference_frequency),
                 "altAlleleFreq": self.format_frequency(self.alternate_frequency)}
