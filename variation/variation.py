@@ -36,6 +36,9 @@ class Variation:
         return '\t'.join([self.chromosome, str(self.start), str(self.end), self.reference, self.alternate,
                           str(self.frequencies)])
 
+    def filter_invalid_frequencies(self):
+        self.frequencies.filter_invalid_frequencies()
+
     def to_json_string(self):
         dict = {'chromosome': self.chromosome, 'start': self.start, 'end': self.end, 'reference': self.reference,
                 'alternate': self.alternate, 'annotation': {'populationFrequencies': self.frequencies.to_json_array()}}

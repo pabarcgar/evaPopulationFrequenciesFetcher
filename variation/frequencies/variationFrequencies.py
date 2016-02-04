@@ -13,5 +13,9 @@ class VariationFrequencies:
     def is_empty(self):
         return len(self.population_frequencies_list) == 0
 
+    def filter_invalid_frequencies(self):
+        # remove populations where reference frequency is 1
+        self.population_frequencies_list = [f for f in self.population_frequencies_list if f.reference_frequency != 1]
+
     def to_json_array(self):
         return [f.to_dict() for f in self.population_frequencies_list]
