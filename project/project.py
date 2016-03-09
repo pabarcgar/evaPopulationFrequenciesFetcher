@@ -1,6 +1,7 @@
 class Project:
-    def __init__(self, project_id, name, populations=None, populations_to_exclude=None):
-        self.id = project_id
+    def __init__(self, project_internal_id, prj_id, name, populations=None, populations_to_exclude=None):
+        self.id = project_internal_id
+        self.prj_id = prj_id
         self.name = name
         self.populations = populations
         self.populations_to_exclude = populations_to_exclude

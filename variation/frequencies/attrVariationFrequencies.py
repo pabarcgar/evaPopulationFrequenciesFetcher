@@ -9,7 +9,7 @@ class AttrVariationFrequencies(VariationFrequencies):
         VariationFrequencies.__init__(self, variation)
         self.files = files
         for project in projects:
-            self.attrs = self.get_attrs(project.id)
+            self.attrs = self.get_attrs(project)
             if self.attrs is not None:
                 self.get_frequencies_from_attrs(project.name, project, project.populations)
 
@@ -31,8 +31,8 @@ class AttrVariationFrequencies(VariationFrequencies):
                                                                           reference_allele_frequency,
                                                                           alternate_allele_frequency))
 
-    def get_attrs(self, project_id):
+    def get_attrs(self, project):
         for file in self.files:
-            if file['sid'] == project_id:
+            if file['sid'] == project.id or file['sid'] == project.prj_id:
                 return file['attrs']
 

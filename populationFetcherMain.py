@@ -20,19 +20,26 @@ uk10k_twinsuk_project = Uk10kTwinsUKProject()
 counts_in_stats_projects = [exac_project, esp_project, thousand_genomes_phase3_project, thousand_genomes_phase1_project]
 frequencies_in_attrs_projects = [thousand_genomes_phase1_project, gonl_project, uk10k_alspac_project, uk10k_twinsuk_project]
 project_ids = [project.id for project in counts_in_stats_projects + frequencies_in_attrs_projects]
+project_ids += ([project.prj_id for project in counts_in_stats_projects + frequencies_in_attrs_projects])
 
 # extract all variations with frequencies for those projects and and print them
 variations_processed = 0
 chromosome = None
+variant_id = None
 if len(sys.argv) > 1:
-    chromosome = sys.argv[1]
+    if sys.argv[1].startswith('rs'):
+        variant_id = sys.argv[1]
+    else:
+        chromosome = sys.argv[1]
 sys.stderr.write('Connecting to EVA Mongo ...\n')
 eva_adaptor = EvaMongoAdaptor('database.config')
 if chromosome is not None:
     sys.stderr.write('Extracting frequencies from chromosome ' + chromosome + ' ...')
+elif variant_id is not None:
+    sys.stderr.write('Extracting frequencies for variant ' + variant_id + ' ...')
 else:
     sys.stderr.write('Extracting all frequencies ...')
-for variation in eva_adaptor.find_variations(project_ids, chromosome):
+for variation in eva_adaptor.find_variations(project_ids, chromosome=chromosome, variant_id=variant_id):
     variations_processed += 1
     variation.get_frequencies(counts_in_stats_projects, frequencies_in_attrs_projects)
     variation.filter_invalid_frequencies()
