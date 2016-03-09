@@ -7,4 +7,4 @@ __author__ = 'parce'
 
 class ExacProject(Project):
     def __init__(self):
-        Project.__init__(self, '130', 'PRJEB8661', 'EXAC')
+        Project.__init__(self, 'PRJEB8661', 'EXAC')

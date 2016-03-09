@@ -9,8 +9,8 @@ UK10K_POPULATIONS = {'AMR': 'AMR',
 
 
 class Uk10kProject(Project):
-    def __init__(self, project_internal_id, prj_id, name):
-        Project.__init__(self, project_internal_id, prj_id, name, populations=UK10K_POPULATIONS)
+    def __init__(self, prj_id, name):
+        Project.__init__(self, prj_id, name, populations=UK10K_POPULATIONS)
 
     @staticmethod
     def get_frequency_tag(population_tag):

@@ -20,7 +20,6 @@ uk10k_twinsuk_project = Uk10kTwinsUKProject()
 counts_in_stats_projects = [exac_project, esp_project, thousand_genomes_phase3_project, thousand_genomes_phase1_project]
 frequencies_in_attrs_projects = [thousand_genomes_phase1_project, gonl_project, uk10k_alspac_project, uk10k_twinsuk_project]
 project_ids = [project.id for project in counts_in_stats_projects + frequencies_in_attrs_projects]
-project_ids += ([project.prj_id for project in counts_in_stats_projects + frequencies_in_attrs_projects])
 
 # extract all variations with frequencies for those projects and and print them
 variations_processed = 0

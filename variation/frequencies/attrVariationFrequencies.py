@@ -33,6 +33,6 @@ class AttrVariationFrequencies(VariationFrequencies):
 
     def get_attrs(self, project):
         for file in self.files:
-            if file['sid'] == project.id or file['sid'] == project.prj_id:
+            if file['sid'] == project.id:
                 return file['attrs']
 

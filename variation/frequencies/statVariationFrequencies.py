@@ -39,7 +39,7 @@ class StatVariationFrequencies(VariationFrequencies):
 
     def get_frequencies(self, projects, stat):
         for project in projects:
-            if stat['sid'] == project.id or stat['sid'] == project.prj_id:
+            if stat['sid'] == project.id:
                 population = stat['cid']
                 try:
                     population_ref_freq, population_alt_freq = self.get_population_frequencies(project, population,
